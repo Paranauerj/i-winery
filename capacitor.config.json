@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "iWinery",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

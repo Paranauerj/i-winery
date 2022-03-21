@@ -1,0 +1,8 @@
+{
+  "name": "iWinery",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "662acd22"
+}
