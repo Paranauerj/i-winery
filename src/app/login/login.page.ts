@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -9,8 +10,12 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class LoginPage implements OnInit {
 
   loginForm;
+  loginErr;
 
-  constructor() 
+  constructor
+  (
+    private navController: NavController
+  ) 
   {
     this.loginForm = new FormGroup({
 
@@ -36,5 +41,9 @@ export class LoginPage implements OnInit {
   onSubmit(){
     console.log("Faço nada ainda");
   }
+
+  /*goForward(route: string){
+    this.navController.navigateForward(route);
+  }*/
 
 }

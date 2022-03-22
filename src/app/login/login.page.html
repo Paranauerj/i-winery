@@ -22,8 +22,10 @@
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <ion-item>
             <ion-label position="floating">Email <ion-text color="danger">*</ion-text></ion-label>
-            <ion-input required formControlName="email" type="text"></ion-input>
+            <ion-input required formControlName="email" type="email"></ion-input>
           </ion-item>
+
+          <hr/>
           
           <!-- <ion-item *ngIf="loginForm.controls['email'].invalid && loginForm.controls['email'].touched" class="danger">
             <ion-text class="form-error">
@@ -33,8 +35,24 @@
       
           <ion-item>
             <ion-label position="floating">Palavra-Passe <ion-text color="danger">*</ion-text></ion-label>
-            <ion-input required formControlName="password" type="text"></ion-input>
+            <ion-input required formControlName="password" type="password"></ion-input>
           </ion-item>
+
+          <hr/>
+
+          <span class="danger" *ngIf="loginErr" lines="none">
+            <ion-text color="danger" class="form-error">
+              <sub>{{ loginErr }}</sub>
+            </ion-text>
+          </span>
+
+          <hr/>
+
+          <span class="ion-text-right">
+            <ion-text  class="ion-text-right">
+              <sub><a [routerLink]="['/forgot-my-password']">Esqueci minha palavra-passe</a></sub>
+            </ion-text>
+          </span>
           
           <ion-button class="ion-margin-top" expand="block" color="primary" type="submit" [disabled]="loginForm.invalid">
             Login

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Storage } from '@ionic/storage';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -13,8 +15,14 @@ export class AppComponent {
     { title: 'Trash', url: '/folder/Trash', icon: 'trash' },
     { title: 'Spam', url: '/folder/Spam', icon: 'warning' },*/
     { title: 'Login', url: '/login', icon: 'paper-plane' },
-    { title: 'Criar Nova Conta', url: '/register', icon: 'paper-plane' },
+    { title: 'Registo', url: '/register', icon: 'paper-plane' },
+    { title: 'Esqueci minha senha', url: '/forgot-my-password', icon: 'paper-plane'}
   ];
   // public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+
+  isLogged(){
+    return true;
+  }
+  
   constructor() {}
 }
