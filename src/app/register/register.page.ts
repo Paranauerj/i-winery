@@ -46,6 +46,10 @@ export class RegisterPage implements OnInit {
         Validators.maxLength(30)
       ])),
 
+      /*role: new FormControl('', Validators.compose([
+        Validators.required
+      ]))*/
+
     },
     {
       validators: this.checkPasswords
