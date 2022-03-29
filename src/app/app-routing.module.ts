@@ -10,7 +10,8 @@ const routes: Routes = [
   {
     path: 'folder/:id',
     loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
-  },  {
+  },
+  {
     path: 'login',
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
   },
@@ -25,6 +26,10 @@ const routes: Routes = [
   {
     path: 'scan',
     loadChildren: () => import('./scan/scan.module').then( m => m.ScanPageModule)
+  },
+  {
+    path: 'main',
+    loadChildren: () => import('./main/main.module').then( m => m.MainPageModule)
   }
 
 ];
