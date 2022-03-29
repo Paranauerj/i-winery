@@ -16,7 +16,8 @@ export class AppComponent {
     { title: 'Spam', url: '/folder/Spam', icon: 'warning' },*/
     { title: 'Login', url: '/login', icon: 'paper-plane' },
     { title: 'Registo', url: '/register', icon: 'paper-plane' },
-    { title: 'Esqueci minha senha', url: '/forgot-my-password', icon: 'paper-plane'}
+    { title: 'Esqueci minha senha', url: '/forgot-my-password', icon: 'paper-plane'},
+    { title: 'Escanear', url: '/scan', icon: 'paper-plane'}
   ];
   // public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 
