@@ -14,6 +14,7 @@ export class AppComponent {
     { title: 'Archived', url: '/folder/Archived', icon: 'archive' },
     { title: 'Trash', url: '/folder/Trash', icon: 'trash' },
     { title: 'Spam', url: '/folder/Spam', icon: 'warning' },*/
+    { title: 'Página Inicial', url: '/main', icon: 'paper-plane' },
     { title: 'Login', url: '/login', icon: 'paper-plane' },
     { title: 'Registo', url: '/register', icon: 'paper-plane' },
     { title: 'Esqueci minha senha', url: '/forgot-my-password', icon: 'paper-plane'}

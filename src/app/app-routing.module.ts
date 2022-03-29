@@ -21,6 +21,10 @@ const routes: Routes = [
   {
     path: 'forgot-my-password',
     loadChildren: () => import('./forgot-my-password/forgot-my-password.module').then( m => m.ForgotMyPasswordPageModule)
+  },
+  {
+    path: 'main',
+    loadChildren: () => import('./main/main.module').then( m => m.MainPageModule)
   }
 
 ];
