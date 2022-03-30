@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 
 @Component({
@@ -14,17 +15,27 @@ export class AppComponent {
     { title: 'Archived', url: '/folder/Archived', icon: 'archive' },
     { title: 'Trash', url: '/folder/Trash', icon: 'trash' },
     { title: 'Spam', url: '/folder/Spam', icon: 'warning' },*/
-    { title: 'Página Inicial', url: '/main', icon: 'paper-plane' },
-    { title: 'Login', url: '/login', icon: 'paper-plane' },
+    
+    /* { title: 'Login', url: '/login', icon: 'paper-plane' },
     { title: 'Registo', url: '/register', icon: 'paper-plane' },
     { title: 'Esqueci minha senha', url: '/forgot-my-password', icon: 'paper-plane'},
+    */
+
+    { title: 'Página Inicial', url: '/main', icon: 'paper-plane' },
     { title: 'Escanear', url: '/scan', icon: 'paper-plane'}
   ];
   // public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 
-  isLogged(){
-    return true;
+  public isLogged(){
+    // localStorage.clear();
+    // console.log(localStorage.getItem("UserEmail"));
+    return localStorage.getItem("UserEmail") !== null;
+  }
+
+  logout(){
+    localStorage.removeItem("UserEmail");
+    this.navController.navigateRoot("/login");
   }
   
-  constructor() {}
+  constructor(private navController: NavController) {}
 }

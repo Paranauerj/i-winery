@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'folder/Inbox',
+    // redirectTo: 'folder/Inbox',
+    redirectTo: isLogged() ? "main" : "login",
     pathMatch: 'full'
   },
   {
@@ -25,14 +27,26 @@ const routes: Routes = [
   },
   {
     path: 'scan',
+    canActivate: [AuthGuard],
     loadChildren: () => import('./scan/scan.module').then( m => m.ScanPageModule)
   },
   {
     path: 'main',
+    canActivate: [AuthGuard],
     loadChildren: () => import('./main/main.module').then( m => m.MainPageModule)
+  },
+  {
+    path: 'history',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./history/history.module').then( m => m.HistoryPageModule)
   }
 
+
 ];
+
+function isLogged(){
+  return localStorage.getItem("UserEmail") !== null;
+}
 
 @NgModule({
   imports: [

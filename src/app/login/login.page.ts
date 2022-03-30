@@ -39,7 +39,9 @@ export class LoginPage implements OnInit {
   }
 
   onSubmit(){
-    console.log("Faço nada ainda");
+    localStorage.setItem("UserEmail", this.loginForm.controls["email"].value);
+    this.navController.navigateRoot("/main");
+    // console.log("Faço nada ainda");
   }
 
   /*goForward(route: string){

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { NavController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-scan',
@@ -8,20 +9,42 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 })
 export class ScanPage implements OnInit {
 
-  data;
+  QRWineID: any;
 
-  constructor(private barcodeScanner: BarcodeScanner) { 
+  constructor
+  (
+    private barcodeScanner: BarcodeScanner, 
+    private navController: NavController, 
+    private toastController: ToastController
+  ) 
+  { 
     this.scan();
   }
 
   scan(){
-    this.data = null;
     this.barcodeScanner.scan().then(barcodeData => {
       console.log("Barcode Data: ", barcodeData);
-      this.data = barcodeData;
+      this.QRWineID = barcodeData.text;
+
+      let wineId = Number(barcodeData.text);
+      if(!Number.isInteger(wineId) || wineId < 1){
+        this.presentToast("ID do vinho inválido!");
+      }
+      else{
+        this.navController.navigateRoot("/history", { state: this.QRWineID });
+      }
+      
     }).catch(err => {
       console.log("Error: ", err);
-    })
+    });
+  }
+
+  async presentToast(msg: string) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 2000
+    });
+    toast.present();
   }
 
   ngOnInit() {
