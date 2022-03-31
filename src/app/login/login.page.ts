@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -39,8 +40,16 @@ export class LoginPage implements OnInit {
   }
 
   onSubmit(){
-    localStorage.setItem("UserEmail", this.loginForm.controls["email"].value);
-    this.navController.navigateRoot("/main");
+    var email = this.loginForm.controls["email"].value;
+    var password = this.loginForm.controls["password"].value;
+
+    AuthService.login(email, password).then(loginResult => {
+      this.navController.navigateRoot("/main");
+    })
+    .catch(() => {
+      this.loginErr = "Erro ao contatar o servidor";
+    });
+    
     // console.log("Faço nada ainda");
   }
 

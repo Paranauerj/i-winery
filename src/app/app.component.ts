@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -26,14 +27,14 @@ export class AppComponent {
   ];
   // public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 
-  public isLogged(){
+  isLogged(){
     // localStorage.clear();
     // console.log(localStorage.getItem("UserEmail"));
-    return localStorage.getItem("UserEmail") !== null;
+    return AuthService.isLogged();
   }
 
   logout(){
-    localStorage.removeItem("UserEmail");
+    AuthService.logout();
     this.navController.navigateRoot("/login");
   }
   

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, NavController } from '@ionic/angular';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -87,8 +88,17 @@ export class RegisterPage implements OnInit {
           text: 'Sim',
           id: 'confirm-button',
           handler: () => {
-            console.log('Confirmou :)');
-            this.router.navigate(['/login']);
+            var email = this.registerForm.controls["email"].value;
+            var password = this.registerForm.controls["password"].value;
+            var name = this.registerForm.controls["name"].value;
+
+            AuthService.register(email, password, name).then(registerResult => {
+              this.router.navigate(['/login']);
+            })
+            .catch(() => {
+              this.registerErr = "Erro ao contatar servidor";
+            });
+
           }
         }
       ]

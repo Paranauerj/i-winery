@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
+import { AuthService } from './services/auth.service';
 
 const routes: Routes = [
   {
     path: '',
     // redirectTo: 'folder/Inbox',
-    redirectTo: isLogged() ? "main" : "login",
+    redirectTo: AuthService.isLogged() ? "main" : "login",
     pathMatch: 'full'
   },
   {
@@ -43,10 +44,6 @@ const routes: Routes = [
 
 
 ];
-
-function isLogged(){
-  return localStorage.getItem("UserEmail") !== null;
-}
 
 @NgModule({
   imports: [

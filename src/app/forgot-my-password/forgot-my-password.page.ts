@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-forgot-my-password',
@@ -29,6 +30,7 @@ export class ForgotMyPasswordPage implements OnInit {
   }
 
   onSubmit(){
+    AuthService.forgotMyPassword(this.passRecForm.controls["email"].value);
     this.navController.back();
   }
 
