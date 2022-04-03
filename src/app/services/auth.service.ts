@@ -1,35 +1,45 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
+  public userEmail = localStorage.getItem("UserEmail");
+
+  private loginEvent = new Subject<any>();
+
   constructor() { }
 
-  public static login(email, password){
+  public login(email, password){
     localStorage.setItem("UserEmail", email);
+    this.loginEvent.next(email);
 
     return new Promise((resolve, reject) => {
       resolve(true);
     });
   }
 
-  public static register(email, password, name){
+  getObservable(): Subject<any> {
+    return this.loginEvent;
+  }
+
+  public register(email, password, name){
     return new Promise((resolve, reject) => {
       resolve(true);
     });
   }
 
-  public static forgotMyPassword(email){
+  public forgotMyPassword(email){
     
   }
 
-  public static isLogged(){
+  public isLogged(){
     return localStorage.getItem("UserEmail") !== null;
   }
 
-  public static logout(){
+  public logout(){
     localStorage.removeItem("UserEmail");
   }
 

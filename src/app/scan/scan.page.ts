@@ -22,7 +22,12 @@ export class ScanPage implements OnInit {
   }
 
   scan(){
-    this.barcodeScanner.scan().then(barcodeData => {
+    var scanOptions = {
+      prompt: "Alinhe o QR ao centro da câmara",
+      alert: "ID Encontrado!"
+    };
+
+    this.barcodeScanner.scan(scanOptions).then(barcodeData => {
       console.log("Barcode Data: ", barcodeData);
       this.QRWineID = barcodeData.text;
 

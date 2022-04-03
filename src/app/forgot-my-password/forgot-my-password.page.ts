@@ -14,7 +14,8 @@ export class ForgotMyPasswordPage implements OnInit {
 
   constructor
   (
-    private navController: NavController
+    private navController: NavController,
+    private authService: AuthService
   ) 
   {
     this.passRecForm = new FormGroup({
@@ -30,7 +31,7 @@ export class ForgotMyPasswordPage implements OnInit {
   }
 
   onSubmit(){
-    AuthService.forgotMyPassword(this.passRecForm.controls["email"].value);
+    this.authService.forgotMyPassword(this.passRecForm.controls["email"].value);
     this.navController.back();
   }
 

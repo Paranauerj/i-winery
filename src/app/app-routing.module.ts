@@ -7,7 +7,7 @@ const routes: Routes = [
   {
     path: '',
     // redirectTo: 'folder/Inbox',
-    redirectTo: AuthService.isLogged() ? "main" : "login",
+    redirectTo: new AuthService().isLogged() ? "main" : "login",
     pathMatch: 'full'
   },
   {

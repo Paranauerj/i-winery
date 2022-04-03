@@ -18,7 +18,8 @@ export class RegisterPage implements OnInit {
   (
     public alertController: AlertController,
     private router: Router,
-    private navController: NavController
+    private navController: NavController,
+    private authService: AuthService
   ) 
   {
     this.registerForm = new FormGroup({
@@ -92,7 +93,7 @@ export class RegisterPage implements OnInit {
             var password = this.registerForm.controls["password"].value;
             var name = this.registerForm.controls["name"].value;
 
-            AuthService.register(email, password, name).then(registerResult => {
+            this.authService.register(email, password, name).then(registerResult => {
               this.router.navigate(['/login']);
             })
             .catch(() => {

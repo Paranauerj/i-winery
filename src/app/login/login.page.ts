@@ -15,7 +15,8 @@ export class LoginPage implements OnInit {
 
   constructor
   (
-    private navController: NavController
+    private navController: NavController,
+    private authService: AuthService
   ) 
   {
     this.loginForm = new FormGroup({
@@ -43,7 +44,7 @@ export class LoginPage implements OnInit {
     var email = this.loginForm.controls["email"].value;
     var password = this.loginForm.controls["password"].value;
 
-    AuthService.login(email, password).then(loginResult => {
+    this.authService.login(email, password).then(loginResult => {
       this.navController.navigateRoot("/main");
     })
     .catch(() => {

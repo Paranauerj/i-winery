@@ -27,16 +27,28 @@ export class AppComponent {
   ];
   // public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 
+  userEmail;
+
+  constructor(private navController: NavController, private authService: AuthService) {
+    this.userEmail = authService.userEmail;
+
+    this.authService.getObservable().subscribe((newUserEmail) => {
+      this.userEmail = newUserEmail;
+      console.log(newUserEmail);
+    })
+  }
+
   isLogged(){
     // localStorage.clear();
     // console.log(localStorage.getItem("UserEmail"));
-    return AuthService.isLogged();
+    // return AuthService.isLogged();
+    return this.authService.isLogged();
   }
 
   logout(){
-    AuthService.logout();
+    // AuthService.logout();
+    this.authService.logout();
     this.navController.navigateRoot("/login");
   }
-  
-  constructor(private navController: NavController) {}
+
 }
