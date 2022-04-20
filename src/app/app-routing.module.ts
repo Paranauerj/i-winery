@@ -40,7 +40,11 @@ const routes: Routes = [
     path: 'history',
     canActivate: [AuthGuard],
     loadChildren: () => import('./history/history.module').then( m => m.HistoryPageModule)
+  },  {
+    path: 'add-interaction',
+    loadChildren: () => import('./add-interaction/add-interaction.module').then( m => m.AddInteractionPageModule)
   }
+
 
 
 ];

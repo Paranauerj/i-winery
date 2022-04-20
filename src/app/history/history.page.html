@@ -7,6 +7,78 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  ID do vinho: {{ wineId }}
+<ion-content class="ion-padding" *ngIf="wineInfo">
+
+  <ion-text class="ion-text-center">
+    <h2>{{ wineInfo.name }}</h2>
+  </ion-text>
+  
+  <div class="ion-text-center">
+    <ion-img [src]="wineInfo.image" ></ion-img>    
+  </div>
+
+  <br>
+  <hr/>
+  
+  <ion-label>Informações</ion-label>
+
+  <ion-grid fixed class="ion-text-center">
+    <ion-row>
+      <ion-col size="6"><b>Ano:</b> {{ wineInfo.year }}</ion-col>
+      <ion-col size="6"><b>Tipo:</b> {{ wineInfo.type }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="6"><b>Produtor:</b> {{ wineInfo.producer }}</ion-col>
+      <ion-col size="6"><b>País:</b> {{ wineInfo.country }}</ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <br>
+  <hr/>
+
+  <ion-label>Interações</ion-label>
+  
+  <ion-list>
+    <ion-item *ngFor="let interaction of wineInteractions; let indexOfelement=index;">
+      <ion-grid fixed>
+        <ion-row class="ion-align-items-center" (click)="presentInteractionDetails(indexOfelement)">
+          <ion-col size="2" class="ion-text-start">
+            <ion-icon name="swap-horizontal" class="interactionIconLarger"></ion-icon>
+          </ion-col>
+          <ion-col size="4">{{ interaction.date }}</ion-col>
+          <ion-col size="6">{{ interaction.location }}</ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+  
+  <br>
+  <hr/>
+  
+  <ion-label>Avalie!</ion-label>
+
+  <ion-grid fixed class="ion-text-end">
+    <ion-row>
+      <ng-container *ngFor="let item of [].constructor(5); let i = index">
+        <ion-col size="2.2">
+          <ion-icon name="star" class="star" *ngIf="stars >= i+1" (click)="setStars(i+1)"></ion-icon>
+          <ion-icon name="star-outline" class="star" *ngIf="stars < i+1" (click)="setStars(i+1)"></ion-icon>
+        </ion-col>
+      </ng-container>
+    </ion-row>
+  </ion-grid>
+
+  <ion-button (click)="sendAvaliation()" expand="block" shape="round" color="primary" [disabled]="stars < 1">
+    Enviar Avaliação
+  </ion-button>
+
+  <br>
+  <hr/>
+
+  <ion-label>Função de administrador</ion-label>
+  <ion-button [routerLink]="['/add-interaction']" expand="block" fill="clear" shape="round">
+    Adicionar interação
+  </ion-button>
+
+  
 </ion-content>

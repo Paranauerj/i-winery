@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-button color="dark" (click)="dismiss()">
+              <ion-icon name="close"></ion-icon>
+          </ion-button>
+      </ion-buttons>
+      <ion-title>{{ name }}</ion-title> 
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-text>
+    <h2>Interação do Vinho</h2>
+  </ion-text>
+  
+  <ion-list>
+    <ion-item>
+      <ion-grid fixed>
+        <ion-row>
+          <ion-col size="5">Tipo</ion-col>
+          <ion-col size="7">{{ type }}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="5">Data</ion-col>
+          <ion-col size="7">{{ date }}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="5">Temperatura</ion-col>
+          <ion-col size="7">{{ temperature }} °C</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="5">Humidade</ion-col>
+          <ion-col size="7">{{ humidity }} %</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="5">Local</ion-col>
+          <ion-col size="7">{{ location }}</ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+
+
+  </ion-list>
+</ion-content>

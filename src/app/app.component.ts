@@ -22,8 +22,9 @@ export class AppComponent {
     { title: 'Esqueci minha senha', url: '/forgot-my-password', icon: 'paper-plane'},
     */
 
-    { title: 'Página Inicial', url: '/main', icon: 'paper-plane' },
-    { title: 'Escanear', url: '/scan', icon: 'paper-plane'}
+    { title: 'Página Inicial', url: '/main', icon: 'home' },
+    { title: 'Escanear', url: '/scan', icon: 'scan'},
+    { title: 'Histórico (ID 1)', url: '/history', icon: 'paper-plane'}
   ];
   // public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 
