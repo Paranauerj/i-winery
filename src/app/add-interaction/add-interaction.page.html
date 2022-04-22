@@ -1,9 +1,181 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>addInteraction</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+      <!--<ion-back-button></ion-back-button>-->
+    </ion-buttons>
+    <ion-title>Adicionar Interação</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
+
+  <ion-text>
+    <h3>Adicione uma interação</h3>
+  </ion-text>
+
+  <form [formGroup]="addInteractionForm" (ngSubmit)="onSubmit()">
+
+   
+    <ion-item>
+      <ion-datetime display-format="DD.MM.YYYY" size="cover" max="{{ today }}" presentation="date" formControlName="date">
+        <!--<div slot="title">Selecione a Data</div>-->
+      </ion-datetime>
+    </ion-item>
+
+    <span class="danger" *ngIf="addInteractionForm.controls['date'].invalid && addInteractionForm.controls['date'].touched" lines="none">
+      <ion-text color="danger" class="form-error">
+        <sub>Data inválida</sub>
+      </ion-text>
+    </span>
+
+    <hr>
+
+    <ion-item>
+      <ion-label position="floating">Local <ion-text color="danger">*</ion-text></ion-label>
+      <ion-input required formControlName="location" type="text"></ion-input>
+    </ion-item>
+
+    <span class="danger" *ngIf="addInteractionForm.controls['location'].invalid && addInteractionForm.controls['location'].touched" lines="none">
+      <ion-text color="danger" class="form-error">
+        <sub>Local inválido - Deve possuir entre 4 e 30 caracteres</sub>
+      </ion-text>
+    </span>
+
+    <hr>
+
+    <ion-item>
+      <ion-label>Tipo de Interação</ion-label>
+      <ion-select okText="Confirmar" cancelText="Fechar" formControlName="move">
+        <ng-container *ngFor="let it of interactionTypes">
+          <ion-select-option value="{{ it }}">{{ it }}</ion-select-option>
+        </ng-container>
+      </ion-select>
+    </ion-item>
+
+    <span class="danger" *ngIf="addInteractionForm.controls['move'].invalid && addInteractionForm.controls['move'].touched" lines="none">
+      <ion-text color="danger" class="form-error">
+        <sub>Interação Inválida!</sub>
+      </ion-text>
+    </span>
+
+    <hr>
+
+    <ion-item>
+      <ion-label position="floating">Temperatura <ion-text color="danger">*</ion-text></ion-label>
+      <ion-input required formControlName="temperature" type="number"></ion-input>
+    </ion-item>
+
+    <span class="danger" *ngIf="addInteractionForm.controls['temperature'].invalid && addInteractionForm.controls['temperature'].touched" lines="none">
+      <ion-text color="danger" class="form-error">
+        <sub>Temperatura Inválida!</sub>
+      </ion-text>
+    </span>
+
+    <hr>
+
+    <ion-item>
+      <ion-label position="floating">Humidade <ion-text color="danger">*</ion-text></ion-label>
+      <ion-input required formControlName="humidity" type="number"></ion-input>
+    </ion-item>
+
+    <span class="danger" *ngIf="addInteractionForm.controls['humidity'].invalid && addInteractionForm.controls['humidity'].touched" lines="none">
+      <ion-text color="danger" class="form-error">
+        <sub>Humidade Inválida!</sub>
+      </ion-text>
+    </span>
+
+    <hr>
+
+    <ion-item>
+      <ion-label>Recipiente</ion-label>
+      <ion-select okText="Confirmar" cancelText="Fechar" formControlName="container">
+        <ng-container *ngFor="let container of containers">
+          <ion-select-option value="{{ container }}">{{ container }}</ion-select-option>
+        </ng-container>
+      </ion-select>
+    </ion-item>
+
+    <span class="danger" *ngIf="addInteractionForm.controls['container'].invalid && addInteractionForm.controls['container'].touched" lines="none">
+      <ion-text color="danger" class="form-error">
+        <sub>Recipiente Inválido!</sub>
+      </ion-text>
+    </span>
+
+    <hr>
+    
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col size="12">Elementos</ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="6">
+
+          <ion-button (click)="addElement()" expand="block" fill="clear" shape="round" color="success">
+            Adicionar
+          </ion-button>
+
+       </ion-col>
+
+        <ion-col size="6">
+          
+        <ion-button (click)="removeElement()" expand="block" fill="clear" shape="round" color="danger" [disabled]="addedElements == 0">
+          Remover
+        </ion-button>
+        
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    
+    
+
+    <ng-container *ngFor="let item of [].constructor(addedElements); let i = index">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="8"> 
+
+            <ion-item>
+              <ion-label position="floating">Elemento {{ i }} <ion-text color="danger">*</ion-text></ion-label>
+              <ion-input required formControlName="addedElement{{i}}" type="text"></ion-input>
+            </ion-item>
+        
+            <span class="danger" *ngIf="addInteractionForm.controls['addedElement' + i].invalid && addInteractionForm.controls['addedElement' + i].touched" lines="none">
+              <ion-text color="danger" class="form-error">
+                <sub>Elemento Inválido - Deve possuir entre 3 a 40 caracteres</sub>
+              </ion-text>
+            </span>
+
+         </ion-col>
+          <ion-col size="4">
+
+            <ion-item>
+              <ion-label position="floating">Qtde (g) <ion-text color="danger">*</ion-text></ion-label>
+              <ion-input required formControlName="addedElementQuantity{{i}}" type="text"></ion-input>
+            </ion-item>
+        
+            <span class="danger" *ngIf="addInteractionForm.controls['addedElementQuantity' + i].invalid && addInteractionForm.controls['addedElementQuantity' + i].touched" lines="none">
+              <ion-text color="danger" class="form-error">
+                <sub>Quantidade do Elemento Inválida!</sub>
+              </ion-text>
+            </span>
+
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+     
+  
+      <hr/>
+    </ng-container>
+
+    <hr/>
+
+    <ion-button expand="block" color="primary" type="submit" [disabled]="addInteractionForm.invalid">
+      Prosseguir
+    </ion-button>
+
+  </form>
 
 </ion-content>

@@ -8,13 +8,15 @@ import { ScanPageRoutingModule } from './scan-routing.module';
 
 import { ScanPage } from './scan.page';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ScanPageRoutingModule
+    ScanPageRoutingModule,
+    ZXingScannerModule
   ],
   providers: [BarcodeScanner],
   declarations: [ScanPage]

@@ -5,6 +5,9 @@ import { Injectable } from '@angular/core';
 })
 export class WineService {
 
+  public moves = ["Fermentacao", "Prensagem", "Transfega", "Adicionar ao Barril", "Movimentar Barril", "Tirar do Barril"];
+  public containers = ["Tanque de Aço", "Barril de Madeira", "Garrafa", "Ovo de Cimento"];
+
   constructor() { }
 
   public getInfo(wineId){
@@ -25,24 +28,45 @@ export class WineService {
     return new Promise((resolve, reject) => {
         resolve([
         {
-          date: "2012-12-12",
-          type: "Movimentação de Barril",
-          temperature: "30",
-          humidity: "80",
-          location: "Peso da Régua"
+          id: 1,
+          date: "2002-12-12",
+          location: "Peso da Régua",
+          move: "Fermentação",
+          temperature: 30.00,
+          humidity: 80.00,
+          container: null,
+          addedElements: [
+            {
+              name: "Açúcar",
+              quantity: 200
+            }, 
+            {
+              name: "Álcool Vínico",
+              quantity: 50
+            }, 
+          ]
         },
         {
+          id: 1,
           date: "2010-10-30",
-          type: "Movimentação de Barril",
-          temperature: "12",
-          humidity: "50",
-          location: "Porto"
+          location: "Porto",
+          move: "Movimentação de Barril",
+          temperature: 12.00,
+          humidity: 50.00,
+          container: "Barril de madeira",
+          addedElements: []
         }
       ]);
     });
   }
 
   public evaluate(stars){
+    return new Promise((resolve, reject) => {
+      resolve({ status: "OK" });
+    });
+  }
+
+  public saveInteraction(interaction){    
     return new Promise((resolve, reject) => {
       resolve({ status: "OK" });
     });

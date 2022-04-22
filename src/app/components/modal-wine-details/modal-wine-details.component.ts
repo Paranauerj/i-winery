@@ -1,19 +1,24 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { CommonModule } from '@angular/common';
+import { Component, Input, NgModule, OnInit } from '@angular/core';
+import { IonicModule, ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-modal-wine-details',
   templateUrl: './modal-wine-details.component.html',
   styleUrls: ['./modal-wine-details.component.scss'],
 })
+
 export class ModalWineDetailsComponent {
 
   @Input() name: any;
-  @Input() type: any;
+  @Input() move: any;
   @Input() date: any;
   @Input() temperature: any;
   @Input() humidity: any;
   @Input() location: any;
+  @Input() id: any;
+  @Input() container: any;
+  @Input() addedElements: any;
   
   constructor(private modalController: ModalController) { }
 

@@ -24,7 +24,9 @@ export class AppComponent {
 
     { title: 'Página Inicial', url: '/main', icon: 'home' },
     { title: 'Escanear', url: '/scan', icon: 'scan'},
-    { title: 'Histórico (ID 1)', url: '/history', icon: 'paper-plane'}
+    { title: 'Histórico (ID 1)', url: '/history', icon: 'paper-plane'},
+    { title: 'Adicionar Interação (ID 1)', url: '/add-interaction', icon: 'paper-plane'}
+    
   ];
   // public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 
@@ -51,5 +53,6 @@ export class AppComponent {
     this.authService.logout();
     this.navController.navigateRoot("/login");
   }
+
 
 }

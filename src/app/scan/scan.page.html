@@ -12,4 +12,12 @@
     <h3>Escaneie o código QR do vinho</h3>
     <p>Aceite o acesso à câmara e coloque o QR no centro da parte indicada</p>
   </ion-text>
+
+  <hr/>
+
+  <p align="center">
+    <zxing-scanner [enable]="cordovaError" [formats]="['QR_CODE']" (scanSuccess)="scanSuccessHandler($event)" style="max-width: 60rem;"></zxing-scanner>
+  </p>
+  
+
 </ion-content>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { NavController, ToastController } from '@ionic/angular';
 
@@ -9,13 +9,16 @@ import { NavController, ToastController } from '@ionic/angular';
 })
 export class ScanPage implements OnInit {
 
+  @ViewChild("altScanVal") alternativeScanResult: ElementRef;
+
   QRWineID: any;
+  cordovaError = false;
 
   constructor
   (
     private barcodeScanner: BarcodeScanner, 
     private navController: NavController, 
-    private toastController: ToastController
+    private toastController: ToastController,
   ) 
   { 
     this.scan();
@@ -31,15 +34,10 @@ export class ScanPage implements OnInit {
       console.log("Barcode Data: ", barcodeData);
       this.QRWineID = barcodeData.text;
 
-      let wineId = Number(barcodeData.text);
-      if(!Number.isInteger(wineId) || wineId < 1){
-        this.presentToast("ID do vinho inválido!");
-      }
-      else{
-        this.navController.navigateRoot("/history", { state: this.QRWineID });
-      }
+      this.isQRValid() ? this.navController.navigateRoot("/history", { state: this.QRWineID }) : this.presentToast("ID do vinho inválido!");
       
     }).catch(err => {
+      this.cordovaError = true;
       console.log("Error: ", err);
     });
   }
@@ -53,6 +51,23 @@ export class ScanPage implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  /* 
+    Caso não tenha Cordova
+    https://blog.minhazav.dev/research/html5-qrcode#scan-using-file
+  */
+  scanSuccessHandler(e){
+    console.log("Barcode data: " + e);
+    this.QRWineID = e;
+
+    this.isQRValid() ? this.navController.navigateRoot("/history", { state: this.QRWineID }) : this.presentToast("ID do vinho inválido!");
+
+  }
+
+  isQRValid() : Boolean {
+    let wineId = Number(this.QRWineID);
+    return !(!Number.isInteger(wineId) || wineId < 1);
   }
 
 }
