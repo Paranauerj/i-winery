@@ -11,7 +11,7 @@
 <ion-content class="ion-padding">
 
   <ion-text>
-    <h3>Adicione uma interação</h3>
+    <h3>Adicione uma Interação ao Vinho</h3>
   </ion-text>
 
   <form [formGroup]="addInteractionForm" (ngSubmit)="onSubmit()">
@@ -39,6 +39,19 @@
     <span class="danger" *ngIf="addInteractionForm.controls['location'].invalid && addInteractionForm.controls['location'].touched" lines="none">
       <ion-text color="danger" class="form-error">
         <sub>Local inválido - Deve possuir entre 4 e 30 caracteres</sub>
+      </ion-text>
+    </span>
+
+    <hr>
+
+    <ion-item>
+      <ion-label position="floating">Responsável <ion-text color="danger">*</ion-text></ion-label>
+      <ion-input required formControlName="responsible" type="text"></ion-input>
+    </ion-item>
+
+    <span class="danger" *ngIf="addInteractionForm.controls['responsible'].invalid && addInteractionForm.controls['responsible'].touched" lines="none">
+      <ion-text color="danger" class="form-error">
+        <sub>Responsável inválido - Deve possuir entre 4 e 35 caracteres</sub>
       </ion-text>
     </span>
 
@@ -137,7 +150,7 @@
           <ion-col size="8"> 
 
             <ion-item>
-              <ion-label position="floating">Elemento {{ i }} <ion-text color="danger">*</ion-text></ion-label>
+              <ion-label position="floating">Elemento<ion-text color="danger">*</ion-text></ion-label>
               <ion-input required formControlName="addedElement{{i}}" type="text"></ion-input>
             </ion-item>
         
@@ -172,8 +185,14 @@
 
     <hr/>
 
+    <span class="danger" *ngIf="addInteractionFormError" lines="none">
+      <ion-text color="danger" class="form-error">
+        <sub>{{ addInteractionFormError }}</sub>
+      </ion-text>
+    </span>
+
     <ion-button expand="block" color="primary" type="submit" [disabled]="addInteractionForm.invalid">
-      Prosseguir
+      Adicionar
     </ion-button>
 
   </form>

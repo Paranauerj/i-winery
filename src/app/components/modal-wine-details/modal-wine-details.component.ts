@@ -19,6 +19,7 @@ export class ModalWineDetailsComponent {
   @Input() id: any;
   @Input() container: any;
   @Input() addedElements: any;
+  @Input() responsible: any;
   
   constructor(private modalController: ModalController) { }
 

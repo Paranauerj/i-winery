@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 import { WineService } from '../services/wine.service';
 
 @Component({
@@ -14,49 +15,18 @@ export class AddInteractionPage implements OnInit {
   interactionTypes;
   containers;
   addedElements = 0;
-  today = new Date().toISOString().split("T")[0];;
+  today = new Date().toISOString().split("T")[0];
+  addInteractionFormError;
 
-  constructor(private router: Router, private wineService: WineService) { 
+  constructor(private router: Router, private wineService: WineService, private toastController: ToastController) { 
     var wineIdParam = this.router.getCurrentNavigation().extras.state;
     var wineId = wineIdParam ? wineIdParam : 1;
 
     this.interactionTypes = this.wineService.moves;
     this.containers = this.wineService.containers;
 
-    this.addInteractionForm = new FormGroup({
-      date: new FormControl(this.today, Validators.compose([
-        Validators.required
-      ])),
-
-      location: new FormControl('', Validators.compose([
-        Validators.minLength(4),
-        Validators.maxLength(30),
-        Validators.required
-      ])),
-
-      move: new FormControl(this.interactionTypes[0], Validators.compose([
-        Validators.required,
-        // this.moveValidator
-      ])),
-
-      temperature: new FormControl('', Validators.compose([
-        Validators.pattern("[0-9][0-9]?"),
-        Validators.required,
-        Validators.maxLength(2)
-      ])),
-
-      humidity: new FormControl('', Validators.compose([
-        Validators.pattern("[0-9][0-9]?"),
-        Validators.required,
-        Validators.maxLength(2)
-      ])),
-
-      container: new FormControl(this.containers[0], Validators.compose([
-        Validators.required
-        // validador customizado
-      ]))
-
-    })
+    this.setupAddInteractionForm();
+    
   }
 
   addElement(){
@@ -86,6 +56,8 @@ export class AddInteractionPage implements OnInit {
   }
 
   onSubmit(){
+    this.addInteractionFormError = false;
+
     var elements = [];
     for(var i = 0; i < this.addedElements; i++){
       elements.push({
@@ -97,6 +69,7 @@ export class AddInteractionPage implements OnInit {
     var interaction = {
       date: this.getFormValue("date"),
       location: this.getFormValue("location"),
+      responsible: this.getFormValue("responsible"),
       move: this.getFormValue("move"),
       temperature: this.getFormValue("temperature"),
       humidity: this.getFormValue("humidity"),
@@ -104,7 +77,18 @@ export class AddInteractionPage implements OnInit {
       addedElements: elements
     };
 
-    this.wineService.saveInteraction(interaction);
+    this.wineService.saveInteraction(interaction).then((response) =>{
+      this.presentToast();
+
+      for(var i = 0; i <= this.addedElements; i++){
+        this.removeElement();
+      }
+
+      this.setupAddInteractionForm();
+      
+    }).catch((err) => {
+      this.addInteractionFormError = err;
+    });
 
   }
 
@@ -118,4 +102,55 @@ export class AddInteractionPage implements OnInit {
       return value ? {value} : null;
     };
   }*/
+
+  async presentToast() {
+    const toast = await this.toastController.create({
+      message: 'Interação Adicionada com Sucesso!',
+      duration: 2000
+    });
+    toast.present();
+  }
+
+  setupAddInteractionForm(){
+    this.addInteractionForm = new FormGroup({
+      date: new FormControl(this.today, Validators.compose([
+        Validators.required
+      ])),
+
+      location: new FormControl('', Validators.compose([
+        Validators.minLength(4),
+        Validators.maxLength(30),
+        Validators.required
+      ])),
+
+      responsible: new FormControl('', Validators.compose([
+        Validators.minLength(4),
+        Validators.maxLength(35),
+        Validators.required
+      ])),
+
+      move: new FormControl(this.interactionTypes[0], Validators.compose([
+        Validators.required,
+        // this.moveValidator
+      ])),
+
+      temperature: new FormControl('', Validators.compose([
+        Validators.pattern("[0-9][0-9]?"),
+        Validators.required,
+        Validators.maxLength(2)
+      ])),
+
+      humidity: new FormControl('', Validators.compose([
+        Validators.pattern("[0-9][0-9]?"),
+        Validators.required,
+        Validators.maxLength(2)
+      ])),
+
+      container: new FormControl(this.containers[0], Validators.compose([
+        Validators.required
+        // validador customizado
+      ]))
+
+    });
+  }
 }
