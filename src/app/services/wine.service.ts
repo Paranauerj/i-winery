@@ -6,7 +6,7 @@ import { WineInteraction } from '../classes/wine-interaction';
 })
 export class WineService {
 
-  public moves = ["Fermentacao", "Prensagem", "Transfega", "Adicionar ao Barril", "Movimentar Barril", "Tirar do Barril", "Colheita"];
+  public moves = ["Fermentação", "Prensagem", "Transfega", "Adicionar ao Barril", "Movimentar Barril", "Tirar do Barril", "Colheita"];
   public containers = ["Tanque de Aço", "Barril de Madeira", "Garrafa", "Ovo de Cimento", "Outro"];
 
   constructor() { }
