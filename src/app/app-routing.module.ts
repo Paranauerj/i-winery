@@ -45,7 +45,11 @@ const routes: Routes = [
     path: 'add-interaction',
     canActivate: [AuthGuard],
     loadChildren: () => import('./add-interaction/add-interaction.module').then( m => m.AddInteractionPageModule)
+  },  {
+    path: 'user',
+    loadChildren: () => import('./user/user.module').then( m => m.UserPageModule)
   }
+
 
 
 
