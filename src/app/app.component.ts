@@ -24,6 +24,7 @@ export class AppComponent {
 
     { title: 'Página Inicial', url: '/main', icon: 'home' },
     { title: 'Escanear', url: '/scan', icon: 'scan'},
+    { title: 'Perfil de utilizador', url: '/user', icon: 'person'},
     { title: 'Histórico (ID 1)', url: '/history', icon: 'paper-plane'},
     { title: 'Adicionar Interação (ID 1)', url: '/add-interaction', icon: 'paper-plane'}
     
