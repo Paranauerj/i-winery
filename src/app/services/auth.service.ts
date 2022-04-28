@@ -43,4 +43,14 @@ export class AuthService {
     localStorage.removeItem("UserEmail");
   }
 
+  getInfo(){
+    return new Promise((resolve, reject) => {
+      resolve({
+        email: this.userEmail,
+        name: "José das Couves",
+        isAdmin: true
+      });
+    });
+  }
+
 }
