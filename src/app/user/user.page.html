@@ -4,11 +4,11 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="userInfo">
   <ion-grid>
     <ion-row center>
       <ion-col>
-        <h1 text-uppercase no-padding no-margin>Bem vindo {{ userEmail }}</h1>
+        <h1 text-uppercase no-padding no-margin>Bem vindo {{ userInfo.name }}</h1>
         <br>
         <h2>Dados de utilizador</h2>
         <!--Apresentar dados de utilizador-->
