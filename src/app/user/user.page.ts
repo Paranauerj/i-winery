@@ -16,11 +16,10 @@ export class UserPage implements OnInit {
   userInfo;
 
   constructor(private navController: NavController, private authService: AuthService, private userService: UserService) {
-    this.userEmail = authService.userEmail;
+    this.userEmail = authService.getUserEmail();
 
-    userService.getInfo().then((data) =>{
-      console.log(data);
-      this.userInfo = data;
+    userService.getInfoFromCurrentUser().subscribe((queryUserInfo) =>{
+      this.userInfo = queryUserInfo.data();
     });
     
   }

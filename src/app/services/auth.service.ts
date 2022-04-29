@@ -1,23 +1,46 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFireAuth } from "@angular/fire/compat/auth";
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  public userEmail = localStorage.getItem("UserEmail");
+  db;
 
   private loginEvent = new Subject<any>();
 
-  constructor() { }
+  constructor(private firestore: AngularFirestore, private auth: AngularFireAuth) {
+  }
 
   public login(email, password){
-    localStorage.setItem("UserEmail", email);
-    this.loginEvent.next(email);
+    var request = this.auth.signInWithEmailAndPassword(email, password);
+    request.then((response) => {
+      localStorage.setItem("UserEmail", email);
+      this.setUserId(email);
 
-    return new Promise((resolve, reject) => {
-      resolve(true);
+      this.loginEvent.next(email);
+    });
+    
+    return request;
+  }
+
+  public getUserEmail(){
+    return localStorage.getItem("UserEmail");
+  }
+
+  public getUserId(){
+    return localStorage.getItem("UserId");
+  }
+
+  private setUserId(email){
+    this.firestore.collection("users").ref.where("email", "==", email).get().then(querySnapshot => {
+      querySnapshot.forEach(doc =>{
+        localStorage.setItem("UserId", doc.id);
+      });
     });
   }
 
@@ -26,13 +49,20 @@ export class AuthService {
   }
 
   public register(email, password, name){
-    return new Promise((resolve, reject) => {
-      resolve(true);
+    var request = this.auth.createUserWithEmailAndPassword(email, password);
+    request.then(() => {
+      this.firestore.collection("users").add({
+        email: email,
+        name: name,
+        isAdmin: false
+      });
     });
+
+    return request;
   }
 
   public forgotMyPassword(email){
-    
+    return this.auth.sendPasswordResetEmail(email);
   }
 
   public isLogged(){
@@ -40,7 +70,9 @@ export class AuthService {
   }
 
   public logout(){
+    this.auth.signOut();
     localStorage.removeItem("UserEmail");
+    localStorage.removeItem("UserId");
   }
-
+  
 }

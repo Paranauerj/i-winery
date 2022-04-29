@@ -38,13 +38,13 @@ export class RegisterPage implements OnInit {
 
       password: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.minLength(5),
+        Validators.minLength(6),
         Validators.maxLength(30)
       ])),
 
       confirmPassword: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.minLength(5),
+        Validators.minLength(6),
         Validators.maxLength(30)
       ])),
 

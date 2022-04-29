@@ -26,7 +26,7 @@ export class AppComponent {
     { title: 'Escanear', url: '/scan', icon: 'scan'},
     { title: 'Perfil de utilizador', url: '/user', icon: 'person'},
     { title: 'Histórico (ID 1)', url: '/history', icon: 'paper-plane'},
-    { title: 'Adicionar Interação (ID 1)', url: '/add-interaction', icon: 'paper-plane'}
+    // { title: 'Adicionar Interação (ID 1)', url: '/add-interaction', icon: 'paper-plane'}
     
   ];
   // public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
@@ -34,7 +34,7 @@ export class AppComponent {
   userEmail;
 
   constructor(private navController: NavController, private authService: AuthService) {
-    this.userEmail = authService.userEmail;
+    this.userEmail = authService.getUserEmail();
 
     this.authService.getObservable().subscribe((newUserEmail) => {
       this.userEmail = newUserEmail;

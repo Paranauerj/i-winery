@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { WineInteraction } from '../classes/wine-interaction';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +11,12 @@ export class WineService {
   public moves = ["Fermentação", "Prensagem", "Transfega", "Adicionar ao Barril", "Movimentar Barril", "Tirar do Barril", "Colheita"];
   public containers = ["Tanque de Aço", "Barril de Madeira", "Garrafa", "Ovo de Cimento", "Outro"];
 
-  constructor() { }
+  constructor(private firestore: AngularFirestore, private authService: AuthService) { }
 
   public getInfo(wineId){
-    return new Promise((resolve, reject) => {
+    return this.firestore.collection("wines").doc(wineId).get();
+
+    /*return new Promise((resolve, reject) => {
       resolve({
         id: wineId,
         name: "Vinho do João",
@@ -22,14 +26,15 @@ export class WineService {
         producer: "João",
         image: null
       });
-    });
+    });*/
+
   }
 
   public getInteractions(wineId){
     return new Promise((resolve, reject) => {
         resolve([
           {
-            id: 1,
+            id: "Cz2xVQJVjIvXctwlDhgY",
             date: "2002-12-12",
             location: "Peso da Régua",
             move: "Fermentação",
@@ -50,7 +55,7 @@ export class WineService {
           }
           ,
           {
-            id: 1,
+            id: "Cz2xVQJVjIvXctwlDhgY",
             date: "2010-10-30",
             location: "Porto",
             move: "Movimentação de Barril",
@@ -64,9 +69,23 @@ export class WineService {
     });
   }
 
-  public evaluate(stars){
-    return new Promise((resolve, reject) => {
-      resolve({ status: "OK" });
+  public evaluate(wineId, stars){
+    return this.firestore.collection("ratings").add({
+      userId: this.authService.getUserId(),
+      wineId: wineId,
+      stars: stars
+    });
+  }
+
+  public userEvaluation(wineId) {
+    return this.firestore.collection("ratings").ref.where("userId","==",this.authService.getUserId()).where("wineId","==",wineId).get();
+  }
+
+  public updateEvaluation(evaluationId, wineId, stars){
+    return this.firestore.collection("ratings").doc(evaluationId).update({
+      userId: this.authService.getUserId(),
+      wineId: wineId,
+      stars: stars
     });
   }
 
@@ -76,4 +95,7 @@ export class WineService {
       resolve({ status: "OK" });
     });
   }
+
+  
+
 }

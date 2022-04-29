@@ -30,7 +30,7 @@ export class LoginPage implements OnInit {
 
       password: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.minLength(5),
+        Validators.minLength(6),
         Validators.maxLength(30)
       ]))
 
@@ -48,7 +48,7 @@ export class LoginPage implements OnInit {
       this.navController.navigateRoot("/main");
     })
     .catch(() => {
-      this.loginErr = "Erro ao contatar o servidor";
+      this.loginErr = "Utilizador/palavra-passe inválidos";
     });
     
     // console.log("Faço nada ainda");

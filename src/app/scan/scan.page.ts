@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { NavController, ToastController } from '@ionic/angular';
+import { WineService } from '../services/wine.service';
 
 @Component({
   selector: 'app-scan',
@@ -19,6 +20,7 @@ export class ScanPage implements OnInit {
     private barcodeScanner: BarcodeScanner, 
     private navController: NavController, 
     private toastController: ToastController,
+    private wineService: WineService
   ) 
   { 
     this.scan();
@@ -34,7 +36,9 @@ export class ScanPage implements OnInit {
       console.log("Barcode Data: ", barcodeData);
       this.QRWineID = barcodeData.text;
 
-      this.isQRValid() ? this.navController.navigateRoot("/history", { state: this.QRWineID }) : this.presentToast("ID do vinho inválido!");
+      this.wineService.getInfo(this.QRWineID).subscribe(response => {
+        response.exists ? this.navController.navigateRoot("/history", { state: this.QRWineID }) : this.presentToast("ID do vinho inválido!");
+      });
       
     }).catch(err => {
       this.cordovaError = true;
@@ -61,13 +65,8 @@ export class ScanPage implements OnInit {
     console.log("Barcode data: " + e);
     this.QRWineID = e;
 
-    this.isQRValid() ? this.navController.navigateRoot("/history", { state: this.QRWineID }) : this.presentToast("ID do vinho inválido!");
-
+    this.wineService.getInfo(this.QRWineID).subscribe(response => {
+      response.exists ? this.navController.navigateRoot("/history", { state: this.QRWineID }) : this.presentToast("ID do vinho inválido!");
+    });
   }
-
-  isQRValid() : Boolean {
-    let wineId = Number(this.QRWineID);
-    return !(!Number.isInteger(wineId) || wineId < 1);
-  }
-
 }

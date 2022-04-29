@@ -20,7 +20,9 @@ export class AddInteractionPage implements OnInit {
 
   constructor(private router: Router, private wineService: WineService, private toastController: ToastController) { 
     var wineIdParam = this.router.getCurrentNavigation().extras.state;
-    var wineId = wineIdParam ? wineIdParam : 1;
+    var wineId = wineIdParam ? wineIdParam : "Cz2xVQJVjIvXctwlDhgY";
+
+    console.log(wineId);
 
     this.interactionTypes = this.wineService.moves;
     this.containers = this.wineService.containers;

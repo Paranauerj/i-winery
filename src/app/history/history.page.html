@@ -79,10 +79,12 @@
   <br>
   <hr/>
 
-  <ion-label>Função de administrador</ion-label>
-  <ion-button [routerLink]="['/add-interaction']" expand="block" fill="clear" shape="round">
-    Adicionar interação
-  </ion-button>
+  <ng-container *ngIf="isOwner">
+    <ion-label>Função de administrador</ion-label>
+    <ion-button (click)="goToInteractionPage()" expand="block" fill="clear" shape="round">
+      Adicionar interação
+    </ion-button>
+</ng-container>
 
   
 </ion-content>

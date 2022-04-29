@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -6,16 +7,14 @@ import { AuthService } from './auth.service';
 })
 export class UserService {
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private firestore: AngularFirestore) { }
 
-  getInfo(){
-    return new Promise((resolve, reject) => {
-      resolve({
-        email: this.authService.userEmail,
-        name: "José das Couves",
-        isAdmin: true
-      });
-    });
+  getInfoFromCurrentUser(){
+    return this.firestore.collection("users").doc(this.authService.getUserId()).get();
+  }
+
+  getInfoFromUserId(userId){
+    return this.firestore.collection("users").doc(userId).get();
   }
 
 }

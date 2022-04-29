@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoadingController, ModalController } from '@ionic/angular';
+import { LoadingController, ModalController, NavController, ToastController } from '@ionic/angular';
 import { ModalWineDetailsComponent } from '../components/modal-wine-details/modal-wine-details.component';
+import { AuthService } from '../services/auth.service';
 import { WineService } from '../services/wine.service';
 
 @Component({
@@ -14,43 +15,77 @@ export class HistoryPage implements OnInit {
   wineInfo;
   wineInteractions;
   stars = 0;
+  alreadyEvaluated = false;
+  evaluationId;
+  wineId;
+  isOwner = false;
 
   constructor
   (
     private router: Router, 
     private wineService: WineService, 
+    private authService: AuthService,
     private loadingController: LoadingController,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private toastController: ToastController,
+    private navController: NavController
   ) 
   { 
     this.presentLoading();
 
     var wineIdParam = this.router.getCurrentNavigation().extras.state;
-    var wineId = wineIdParam ? wineIdParam : 1;
+    this.wineId = wineIdParam ? wineIdParam : "Cz2xVQJVjIvXctwlDhgY";
 
-    this.LoadWineInfo(wineId);
-    this.LoadWineInteractions(wineId);
+    wineService.userEvaluation(this.wineId).then(response => {
+      response.forEach(values => {
+        this.setStars(values.data()["stars"]);
+        this.alreadyEvaluated = true;
+        this.evaluationId = values.id;
+      });
+    });
+
+    this.LoadWineInfo();
+    this.LoadWineInteractions();
   }
 
-  LoadWineInfo(wineId){
-    this.wineService.getInfo(wineId).then((response) => {
-      this.wineInfo = response;
+  LoadWineInfo(){
+    this.wineService.getInfo(this.wineId).subscribe((response) => {
+      this.wineInfo = response.data();
       this.wineInfo.image = this.wineInfo.image ? this.wineInfo.image : "../../assets/appImages/wineDefaultIcon.png";
+      if(this.wineInfo.ownerId == this.authService.getUserId()){
+        this.isOwner = true;
+      }
     });
   }
 
-  LoadWineInteractions(wineId){
-    this.wineService.getInteractions(wineId).then((response) => {
+  LoadWineInteractions(){
+    this.wineService.getInteractions(this.wineId).then((response) => {
       this.wineInteractions = response;
     });
   }
+
 
   setStars(num){
     this.stars = num;
   }
 
   sendAvaliation(){
-    this.wineService.evaluate(this.stars);
+    this.presentToast();
+    
+    if(this.alreadyEvaluated) {
+      this.wineService.updateEvaluation(this.evaluationId, this.wineId, this.stars);
+      return;
+    }
+    
+    this.wineService.evaluate(this.wineId, this.stars).then(response => {
+      this.evaluationId = response.id;
+      this.alreadyEvaluated = true;
+    });
+
+  }
+
+  goToInteractionPage(){
+    this.navController.navigateForward("/add-interaction", { state: this.wineId })
   }
 
   ngOnInit() {
@@ -73,4 +108,15 @@ export class HistoryPage implements OnInit {
     return await modal.present();
     // console.log(index, this.wineInteractions[index]);
   }
+  
+  async presentToast() {
+    const toast = await this.toastController.create({
+      message: 'Avaliado com sucesso!',
+      duration: 2000
+    });
+    toast.present();
+  }
+
+  
+
 }

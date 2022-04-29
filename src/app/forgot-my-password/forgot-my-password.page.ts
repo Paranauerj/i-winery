@@ -21,6 +21,7 @@ export class ForgotMyPasswordPage implements OnInit {
     this.passRecForm = new FormGroup({
       email: new FormControl('', Validators.compose([
         Validators.required,
+        Validators.email,
         Validators.minLength(6),
         Validators.maxLength(42)
       ]))
