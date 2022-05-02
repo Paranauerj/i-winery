@@ -14,10 +14,12 @@
         <h1 text-uppercase no-padding no-margin>Bem vindo {{ userInfo.name }}</h1>
         <br>
         <h2>Dados de utilizador</h2>
-        <!--Apresentar dados de utilizador-->
         <h2>Vinhos introduzidos</h2>
-        <!--Apresentar os vinhos introduzidos-->
-        <h2>Mais qualquer coisa</h2>
+        <h2>Vinhos Avaliados</h2>
+        <ion-item *ngFor="let wine of winesEvaluated; let indexOfelement=index;">
+          <h2>{{ wine.name }}</h2>
+          <h2> {{ starsEvaluated[indexOfelement] }}</h2>
+        </ion-item>
       </ion-col>
     </ion-row>
   </ion-grid>
