@@ -59,7 +59,7 @@ export class HistoryPage implements OnInit {
   }
 
   LoadWineInteractions(){
-    this.wineService.getInteractions(this.wineId).then((response) => {
+    this.wineService.getInteractions(this.wineId).subscribe((response) => {
       this.wineInteractions = response;
     });
   }
@@ -103,7 +103,7 @@ export class HistoryPage implements OnInit {
   async presentInteractionDetails(index) {
     const modal = await this.modalController.create({
       component: ModalWineDetailsComponent,
-      componentProps: Object.assign(this.wineInteractions[index], {name: this.wineInfo.name})
+      componentProps: Object.assign(this.wineInteractions[index].Record, {name: this.wineInfo.name, interactionKey: this.wineInteractions[index].Key})
     });
     return await modal.present();
     // console.log(index, this.wineInteractions[index]);

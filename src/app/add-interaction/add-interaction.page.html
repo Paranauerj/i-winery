@@ -125,7 +125,7 @@
       <ion-row>
         <ion-col size="6">
 
-          <ion-button (click)="addElement()" expand="block" fill="clear" shape="round" color="success">
+          <ion-button (click)="addElement()" expand="block" fill="clear" shape="round" color="success" [disabled]="addedElements == 10">
             Adicionar
           </ion-button>
 

@@ -17,12 +17,11 @@ export class AddInteractionPage implements OnInit {
   addedElements = 0;
   today = new Date().toISOString().split("T")[0];
   addInteractionFormError;
+  wineId;
 
   constructor(private router: Router, private wineService: WineService, private toastController: ToastController) { 
     var wineIdParam = this.router.getCurrentNavigation().extras.state;
-    var wineId = wineIdParam ? wineIdParam : "Cz2xVQJVjIvXctwlDhgY";
-
-    console.log(wineId);
+    this.wineId = wineIdParam ? wineIdParam : "Cz2xVQJVjIvXctwlDhgY";
 
     this.interactionTypes = this.wineService.moves;
     this.containers = this.wineService.containers;
@@ -32,6 +31,8 @@ export class AddInteractionPage implements OnInit {
   }
 
   addElement(){
+    if(this.addedElements == 10) return;
+
     this.addInteractionForm.addControl('addedElement' + this.addedElements, new FormControl('', Validators.compose([
       Validators.required,
       Validators.maxLength(40),
@@ -69,6 +70,7 @@ export class AddInteractionPage implements OnInit {
     }
 
     var interaction = {
+      id: this.wineId,
       date: this.getFormValue("date"),
       location: this.getFormValue("location"),
       responsible: this.getFormValue("responsible"),
@@ -79,18 +81,19 @@ export class AddInteractionPage implements OnInit {
       addedElements: elements
     };
 
-    this.wineService.saveInteraction(interaction).then((response) =>{
+    this.wineService.addInteraction(interaction).subscribe((response) =>{
+      console.log(response);
+      
       this.presentToast();
 
-      for(var i = 0; i <= this.addedElements; i++){
+      for(var i = 0; i <= 12; i++){
         this.removeElement();
       }
 
       this.setupAddInteractionForm();
       
-    }).catch((err) => {
-      this.addInteractionFormError = err;
     });
+
 
   }
 
