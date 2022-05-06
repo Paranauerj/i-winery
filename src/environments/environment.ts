@@ -11,6 +11,10 @@ export const environment = {
     storageBucket: "iwinery-74cdc.appspot.com",
     messagingSenderId: "183181791719",
     appId: "1:183181791719:web:6eed29cf6fe6dfbf31ad42"
+  },
+  blockchain: {
+    address: "http://192.168.1.232:8001",
+    apiKey: "507e1a93c3cb189293914bf4e06e1d94"
   }
 };
 

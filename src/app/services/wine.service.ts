@@ -31,7 +31,8 @@ export class WineService {
   }
 
   public getInteractions(wineId){
-    return new Promise((resolve, reject) => {
+    
+    /*return new Promise((resolve, reject) => {
         resolve([
           {
             id: "Cz2xVQJVjIvXctwlDhgY",
@@ -66,7 +67,7 @@ export class WineService {
             addedElements: []
           }
       ]);
-    });
+    });*/
   }
 
   public evaluate(wineId, stars){
