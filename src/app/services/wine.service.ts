@@ -82,6 +82,10 @@ export class WineService {
     return this.firestore.collection("ratings").ref.where("userId","==",this.authService.getUserId()).where("wineId","==",wineId).get();
   }
 
+  public allUserEvaluation() {
+    return this.firestore.collection("ratings").ref.where("userId","==",this.authService.getUserId()).get();
+  }
+
   public updateEvaluation(evaluationId, wineId, stars){
     return this.firestore.collection("ratings").doc(evaluationId).update({
       userId: this.authService.getUserId(),
