@@ -12,6 +12,8 @@
     <h2>Bem vindo, {{ userInfo.name }}</h2>
     <p>Aqui podes ver suas avaliações nos vinhos e mais!</p>
     <p *ngIf="userInfo.role == 'admin'">És administrador.</p>
+    <p *ngIf="userInfo.role == 'producer'">És produtor.</p>
+    <p *ngIf="userInfo.role == 'user'">És utilizador.</p>
   </ion-text>
 
   <hr>

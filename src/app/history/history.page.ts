@@ -22,6 +22,7 @@ export class HistoryPage implements OnInit {
   wineId;
   isOwner = false;
   userInfo;
+  QRGenerated = false;
 
   constructor
   (

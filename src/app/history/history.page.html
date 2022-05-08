@@ -87,6 +87,15 @@
     <ion-button (click)="deleteWine()" expand="block" fill="clear" shape="round" color="danger">
       Deletar vinho
     </ion-button>
+    <ion-button (click)="QRGenerated = !QRGenerated" expand="block" fill="clear" shape="round" color="secondary">
+      Exibir Código QR
+    </ion-button>
+
+    <hr>
+    <center>
+      <qr-code [size]="250" [value]="wineId" [hidden]="!QRGenerated"></qr-code>
+    </center>
+
 </ng-container>
 
   

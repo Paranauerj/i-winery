@@ -8,13 +8,15 @@ import { HistoryPageRoutingModule } from './history-routing.module';
 
 import { HistoryPage } from './history.page';
 import { ModalWineDetailsComponent } from '../components/modal-wine-details/modal-wine-details.component';
+import { QRCodeModule } from 'angular2-qrcode';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HistoryPageRoutingModule
+    HistoryPageRoutingModule,
+    QRCodeModule
   ],
   declarations: [HistoryPage, ModalWineDetailsComponent],
   // exports: [ ModalWineDetailsComponent]
