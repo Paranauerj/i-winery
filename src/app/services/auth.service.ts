@@ -54,7 +54,7 @@ export class AuthService {
       this.firestore.collection("users").add({
         email: email,
         name: name,
-        isAdmin: false
+        role: "user"
       });
     });
 

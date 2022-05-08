@@ -79,10 +79,13 @@
   <br>
   <hr/>
 
-  <ng-container *ngIf="isOwner">
+  <ng-container *ngIf="isOwner || userInfo.role == 'admin'">
     <ion-label>Função de administrador</ion-label>
     <ion-button (click)="goToInteractionPage()" expand="block" fill="clear" shape="round">
       Adicionar interação
+    </ion-button>
+    <ion-button (click)="deleteWine()" expand="block" fill="clear" shape="round" color="danger">
+      Deletar vinho
     </ion-button>
 </ng-container>
 

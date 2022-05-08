@@ -2,5 +2,12 @@
 	"appId": "io.ionic.iwinery",
 	"appName": "iWinery",
 	"webDir": "www",
-	"bundledWebRuntime": false
+	"bundledWebRuntime": false,
+	"server": {
+		"allowNavigation": ["*"],
+		"cleartext": true
+	},
+	"cordova": {
+		"accessOrigins": ["*"]
+	}
 }

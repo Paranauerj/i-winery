@@ -1,0 +1,101 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Adicionar Vinho</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="ion-padding">
+
+  <form [formGroup]="addWineForm" (ngSubmit)="onSubmit()">
+    
+    <ion-item>
+      <ion-label position="floating">Nome <ion-text color="danger">*</ion-text></ion-label>
+      <ion-input required formControlName="name" type="text"></ion-input>
+    </ion-item>
+
+    <span class="danger" *ngIf="addWineForm.controls['name'].invalid && addWineForm.controls['name'].touched" lines="none">
+      <ion-text color="danger" class="form-error">
+        <sub>Nome deve possuir 5 a 46 caracteres</sub>
+      </ion-text>
+    </span>
+
+    <hr/>
+
+    <ion-item>
+      <ion-label position="floating">País <ion-text color="danger">*</ion-text></ion-label>
+      <ion-input required formControlName="country" type="text"></ion-input>
+    </ion-item>
+
+    <span class="danger" *ngIf="addWineForm.controls['country'].invalid && addWineForm.controls['country'].touched" lines="none">
+      <ion-text color="danger" class="form-error">
+        <sub>País deve possuir 2 a 46 caracteres</sub>
+      </ion-text>
+    </span>
+
+    <hr/>
+
+    <ion-item>
+      <ion-label position="floating">Produtor <ion-text color="danger">*</ion-text></ion-label>
+      <ion-input required formControlName="producer" type="text"></ion-input>
+    </ion-item>
+
+    <span class="danger" *ngIf="addWineForm.controls['producer'].invalid && addWineForm.controls['producer'].touched" lines="none">
+      <ion-text color="danger" class="form-error">
+        <sub>Produtor deve possuir 5 a 46 caracteres</sub>
+      </ion-text>
+    </span>
+
+    <hr/>
+
+    <ion-item>
+      <ion-label position="floating">Tipo <ion-text color="danger">*</ion-text></ion-label>
+      <ion-input required formControlName="type" type="text"></ion-input>
+    </ion-item>
+
+    <span class="danger" *ngIf="addWineForm.controls['type'].invalid && addWineForm.controls['type'].touched" lines="none">
+      <ion-text color="danger" class="form-error">
+        <sub>Tipo deve possuir 3 a 46 caracteres</sub>
+      </ion-text>
+    </span>
+
+    <hr/>
+
+    <ion-item>
+      <ion-label position="floating">Ano <ion-text color="danger">*</ion-text></ion-label>
+      <ion-input required formControlName="year" type="number"></ion-input>
+    </ion-item>
+
+    <span class="danger" *ngIf="addWineForm.controls['year'].invalid && addWineForm.controls['year'].touched" lines="none">
+      <ion-text color="danger" class="form-error">
+        <sub>Ano deve ser estar entre 1800 e o ano atual</sub>
+      </ion-text>
+    </span>
+
+    <hr/>
+
+    <ion-item>
+      <ion-label>Imagem <ion-text color="danger">*</ion-text></ion-label>
+      <ion-input required formControlName="image" type="file" (change)="onImageSelected($event)"></ion-input>
+    </ion-item>
+
+    <span class="danger" *ngIf="addWineForm.controls['image'].invalid && addWineForm.controls['image'].touched" lines="none">
+      <ion-text color="danger" class="form-error">
+        <sub>Imagem válida é obrigatória (png, jpg, jpeg e bmp)</sub>
+      </ion-text>
+    </span>
+
+    <hr/>
+
+    <ion-button class="ion-margin-top" expand="block" color="primary" type="submit" [disabled]="addWineForm.invalid">
+      Adicionar Vinho
+    </ion-button>
+
+  </form>
+
+   
+
+</ion-content>

@@ -18,27 +18,33 @@ export class WineService {
 
   constructor(private firestore: AngularFirestore, private authService: AuthService, private http: HttpClient) { }
 
+  // Obtém os dados do vinho
   public getInfo(wineId){
     return this.firestore.collection("wines").doc(wineId).get();
-
-    /*return new Promise((resolve, reject) => {
-      resolve({
-        id: wineId,
-        name: "Vinho do João",
-        year: 2000,
-        type: "do Porto",
-        country: "Portugal",
-        producer: "João",
-        image: null
-      });
-    });*/
-
   }
 
+  // Obtém os vinhos que são propriedade do utilizador
+  public getOwned(){
+    return this.firestore.collection("wines").ref.where("ownerId", "==", this.authService.getUserId()).get();
+  }
+
+  // Adiciona vinho a base de dados
+  public addWine(data){
+    return this.firestore.collection("wines").add(data);
+  }
+
+  // Remove o vinho da base de dados
+  public removeWine(wineId){
+    return this.firestore.collection("wines").doc(wineId).delete();
+  }
+
+  // INTERAÇÕES
+  // Obtém as interações do vinho
   public getInteractions(wineId){
     return this.http.get(environment.blockchain.url + "/wines/" + wineId);
   }
 
+  // Adiciona interação nova
   public addInteraction(data){
     let reqHeaders = new HttpHeaders()
       .set("Content-Type", "application/json")
@@ -47,6 +53,17 @@ export class WineService {
     return this.http.post(environment.blockchain.url + "/wines/interactions", data, {headers: reqHeaders});
   }
 
+    // Remove a interação pelo ID
+  public removeInteraction(interactionId){
+    let reqHeaders = new HttpHeaders()
+      .set("Content-Type", "application/json")
+      .set("x-api-key", environment.blockchain.apiKey);
+
+    return this.http.delete(environment.blockchain.url + "/wines/interactions/" + interactionId, {headers: reqHeaders});
+  }
+
+  // AVALIAÇÕES
+  // Avalia o vinho
   public evaluate(wineId, stars){
     return this.firestore.collection("ratings").add({
       userId: this.authService.getUserId(),
@@ -55,14 +72,17 @@ export class WineService {
     });
   }
 
+  // Retorna a avaliação feita pelo user sobre determinado vinho
   public userEvaluation(wineId) {
     return this.firestore.collection("ratings").ref.where("userId","==",this.authService.getUserId()).where("wineId","==",wineId).get();
   }
 
+  // Retorna todas as avaliações do utilizador
   public allUserEvaluation() {
     return this.firestore.collection("ratings").ref.where("userId","==",this.authService.getUserId()).get();
   }
 
+  // Atualiza avaliação do utilizador
   public updateEvaluation(evaluationId, wineId, stars){
     return this.firestore.collection("ratings").doc(evaluationId).update({
       userId: this.authService.getUserId(),

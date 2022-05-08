@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { __values } from 'tslib';
 import { AuthService } from '../services/auth.service';
@@ -16,6 +17,7 @@ export class UserPage implements OnInit {
   userInfo;
   wineId;
   wineInfo;
+  winesOwned = [];
   winesEvaluated = [];
   starsEvaluated = [];
 
@@ -24,34 +26,49 @@ export class UserPage implements OnInit {
     private authService: AuthService, 
     private userService: UserService,
     private wineService: WineService
-    ) 
-    {
+  ) 
+  {
     this.userEmail = authService.getUserEmail();
 
     userService.getInfoFromCurrentUser().subscribe((queryUserInfo) =>{
       this.userInfo = queryUserInfo.data();
-
-      wineService.allUserEvaluation();
     });
 
-    this.LoadWineInfo_A();
+    this.LoadWinesRatings();
+    this.LoadWinesOwned();
   }
 
   ngOnInit() {
   }
 
-  LoadWineInfo_A(){
-    this.wineService.allUserEvaluation().then(response=>{
-      //console.log(response.size);
+  LoadWinesRatings(){
+    this.wineService.allUserEvaluation().then(response => {
       response.forEach(evaluation =>{
-        //console.log(evaluation.data()["wineId"]);
         this.starsEvaluated.push(evaluation.data()["stars"]);
-        console.log(evaluation.data()["stars"]);
-        this.wineService.getInfo(evaluation.data()["wineId"]).subscribe(response_Wine=>{
-            //console.log(response_Wine.data());
-            this.winesEvaluated.push(response_Wine.data());
-        })
-      })
+
+        this.wineService.getInfo(evaluation.data()["wineId"]).subscribe(responseWine => {
+            var aux = responseWine.data();
+            aux["id"] = responseWine.id;
+
+            this.winesEvaluated.push(aux);
+        });
+
+      });
+    });
+  }
+
+  LoadWinesOwned(){
+    this.wineService.getOwned().then(response => {
+      response.forEach(wine => {
+        var aux = wine.data();
+        aux["id"] = wine.id;
+        this.winesOwned.push(aux);
+      });
     })
   }
+
+  /*openHistory(wineId){
+    this.navController.navigateForward("/history", );
+  }*/
+
 }

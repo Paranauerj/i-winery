@@ -8,19 +8,61 @@
 </ion-header>
 
 <ion-content class="ion-padding" *ngIf="userInfo">
-  <ion-grid>
-    <ion-row center>
-      <ion-col>
-        <h1 text-uppercase no-padding no-margin>Bem vindo {{ userInfo.name }}</h1>
-        <br>
-        <h2>Dados de utilizador</h2>
-        <h2>Vinhos introduzidos</h2>
-        <h2>Vinhos Avaliados</h2>
-        <ion-item *ngFor="let wine of winesEvaluated; let indexOfelement=index;">
-          <h2>{{ wine.name }}</h2>
-          <h2> {{ starsEvaluated[indexOfelement] }}</h2>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <ion-text>
+    <h2>Bem vindo, {{ userInfo.name }}</h2>
+    <p>Aqui podes ver suas avaliações nos vinhos e mais!</p>
+    <p *ngIf="userInfo.role == 'admin'">És administrador.</p>
+  </ion-text>
+
+  <hr>
+
+  <ion-text>
+    <h3>Minhas Avaliações</h3>
+  </ion-text>
+  
+  <ion-list>
+    <ion-item>
+      <ion-col size="6" class="thead_text">Vinho</ion-col>
+      <ion-col size="6" class="thead_text">Estrelas</ion-col>
+    </ion-item>
+    <ion-item *ngFor="let wine of winesEvaluated; let indexOfelement=index;" [routerLink]="['/history']" [state]="wine.id">
+      <ion-col size="6">{{ wine.name }}</ion-col>
+      <ion-col size="6">{{ starsEvaluated[indexOfelement] }}</ion-col>
+    </ion-item>
+  </ion-list>
+
+  <hr>
+
+  <ng-container *ngIf="winesOwned.length > 0 || userInfo.role == 'admin' || userInfo.role == 'producer'">
+    <ion-text>
+      <h3>Meus Vinhos</h3>
+    </ion-text>
+    
+    <ion-list>
+      <ion-item>
+          <ion-col size="6" class="thead_text">Vinho</ion-col>
+          <ion-col size="6" class="thead_text">Tipo</ion-col>
+      </ion-item>
+
+      <ion-item *ngFor="let wine of winesOwned; let indexOfelement=index;" [routerLink]="['/history']" [state]="wine.id">
+        <ion-col size="6">{{ wine.name }}</ion-col>
+        <ion-col size="6">{{ wine.type }}</ion-col>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+
+  <hr>
+
+  <ng-container *ngIf="userInfo.role == 'admin' || userInfo.role == 'producer' ">
+    <ion-text>
+      <h3>Ações</h3>
+    </ion-text>
+    
+    <ion-button [routerLink]="['/add-wine']" expand="block" fill="clear" shape="round">
+      Adicionar Vinho
+    </ion-button>
+
+  </ng-container>
+  
+
 </ion-content>

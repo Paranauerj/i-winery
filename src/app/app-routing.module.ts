@@ -49,7 +49,11 @@ const routes: Routes = [
   {
     path: 'user',
     loadChildren: () => import('./user/user.module').then( m => m.UserPageModule)
+  },  {
+    path: 'add-wine',
+    loadChildren: () => import('./add-wine/add-wine.module').then( m => m.AddWinePageModule)
   }
+
 
 
 

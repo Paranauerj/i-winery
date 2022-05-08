@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Router } from '@angular/router';
-import { LoadingController, ModalController, NavController, ToastController } from '@ionic/angular';
+import { AlertController, LoadingController, ModalController, NavController, ToastController } from '@ionic/angular';
 import { ModalWineDetailsComponent } from '../components/modal-wine-details/modal-wine-details.component';
 import { AuthService } from '../services/auth.service';
+import { UserService } from '../services/user.service';
 import { WineService } from '../services/wine.service';
 
 @Component({
@@ -19,16 +21,20 @@ export class HistoryPage implements OnInit {
   evaluationId;
   wineId;
   isOwner = false;
+  userInfo;
 
   constructor
   (
     private router: Router, 
     private wineService: WineService, 
     private authService: AuthService,
+    private userService: UserService,
     private loadingController: LoadingController,
     private modalController: ModalController,
     private toastController: ToastController,
-    private navController: NavController
+    private navController: NavController,
+    private firestorage: AngularFireStorage,
+    private alertController: AlertController
   ) 
   { 
     this.presentLoading();
@@ -44,6 +50,10 @@ export class HistoryPage implements OnInit {
       });
     });
 
+    userService.getInfoFromCurrentUser().subscribe(response => {
+      this.userInfo = response;
+    });
+
     this.LoadWineInfo();
     this.LoadWineInteractions();
   }
@@ -51,7 +61,19 @@ export class HistoryPage implements OnInit {
   LoadWineInfo(){
     this.wineService.getInfo(this.wineId).subscribe((response) => {
       this.wineInfo = response.data();
-      this.wineInfo.image = this.wineInfo.image ? this.wineInfo.image : "../../assets/appImages/wineDefaultIcon.png";
+      
+      
+      if(this.wineInfo.image){
+        var storageRef = this.firestorage.storage.ref();
+        var imgRef = storageRef.child(this.wineInfo.image);
+        imgRef.getDownloadURL().then(url => {
+          this.wineInfo.image = url;
+        });
+      } 
+      else {
+        this.wineInfo.image = "../../assets/appImages/wineDefaultIcon.png";
+      }
+
       if(this.wineInfo.ownerId == this.authService.getUserId()){
         this.isOwner = true;
       }
@@ -70,7 +92,7 @@ export class HistoryPage implements OnInit {
   }
 
   sendAvaliation(){
-    this.presentToast();
+    this.presentToast("Avaliado com sucesso!");
     
     if(this.alreadyEvaluated) {
       this.wineService.updateEvaluation(this.evaluationId, this.wineId, this.stars);
@@ -86,6 +108,12 @@ export class HistoryPage implements OnInit {
 
   goToInteractionPage(){
     this.navController.navigateForward("/add-interaction", { state: this.wineId })
+  }
+
+  deleteWine(){
+    this.wineService.removeWine(this.wineId).then(response => {
+      this.presentAlertConfirm();
+    });
   }
 
   ngOnInit() {
@@ -109,14 +137,37 @@ export class HistoryPage implements OnInit {
     // console.log(index, this.wineInteractions[index]);
   }
   
-  async presentToast() {
+  async presentToast(msg) {
     const toast = await this.toastController.create({
-      message: 'Avaliado com sucesso!',
+      message: msg,
       duration: 2000
     });
     toast.present();
   }
 
+  async presentAlertConfirm() {
+    const alert = await this.alertController.create({
+      header: 'Confirmar',
+      message: 'Deseja deletar este vinho?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          id: 'cancel-button'
+        }, {
+          text: 'Confirmar',
+          id: 'confirm-button',
+          handler: () => {
+            this.presentToast("Vinho deletado com sucesso!");
+            this.navController.navigateRoot("/main");
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
   
 
 }
