@@ -41,7 +41,7 @@ export class HistoryPage implements OnInit {
     this.presentLoading();
 
     var wineIdParam = this.router.getCurrentNavigation().extras.state;
-    this.wineId = wineIdParam ? wineIdParam : "Cz2xVQJVjIvXctwlDhgY";
+    this.wineId = wineIdParam ? wineIdParam : "7VbfK2SGx5pbzssL2xsa";
 
     wineService.userEvaluation(this.wineId).then(response => {
       response.forEach(values => {
@@ -112,9 +112,7 @@ export class HistoryPage implements OnInit {
   }
 
   deleteWine(){
-    this.wineService.removeWine(this.wineId).then(response => {
       this.presentAlertConfirm();
-    });
   }
 
   ngOnInit() {
@@ -160,8 +158,10 @@ export class HistoryPage implements OnInit {
           text: 'Confirmar',
           id: 'confirm-button',
           handler: () => {
-            this.presentToast("Vinho deletado com sucesso!");
-            this.navController.navigateRoot("/main");
+            this.wineService.removeWine(this.wineId).then(response => {
+              this.presentToast("Vinho deletado com sucesso!");
+              this.navController.navigateRoot("/main");
+            });
           }
         }
       ]
