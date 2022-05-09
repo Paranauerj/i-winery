@@ -52,7 +52,7 @@ export class HistoryPage implements OnInit {
     });
 
     userService.getInfoFromCurrentUser().subscribe(response => {
-      this.userInfo = response;
+      this.userInfo = response.data();
     });
 
     this.LoadWineInfo();
