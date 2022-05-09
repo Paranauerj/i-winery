@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AdminAndProducerGuard } from './guards/admin-and-producer.guard';
 import { AuthGuard } from './guards/auth.guard';
 import { AuthService } from './services/auth.service';
 
@@ -34,6 +35,7 @@ const routes: Routes = [
   {
     path: 'main',
     canActivate: [AuthGuard],
+    
     loadChildren: () => import('./main/main.module').then( m => m.MainPageModule)
   },
   {
@@ -43,20 +45,18 @@ const routes: Routes = [
   },
   {
     path: 'add-interaction',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, AdminAndProducerGuard],
     loadChildren: () => import('./add-interaction/add-interaction.module').then( m => m.AddInteractionPageModule)
   },
   {
     path: 'user',
     loadChildren: () => import('./user/user.module').then( m => m.UserPageModule)
-  },  {
+  },
+  {
     path: 'add-wine',
+    canActivate: [AuthGuard, AdminAndProducerGuard],
     loadChildren: () => import('./add-wine/add-wine.module').then( m => m.AddWinePageModule)
   }
-
-
-
-
 
 ];
 

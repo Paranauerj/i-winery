@@ -1,20 +1,22 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  constructor(private authService: AuthService, private firestore: AngularFirestore) { }
+  constructor(private firestore: AngularFirestore) { }
 
   getInfoFromCurrentUser(){
-    return this.firestore.collection("users").doc(this.authService.getUserId()).get();
+    return this.firestore.collection("users").doc(localStorage.getItem("UserId")).get();
   }
 
   getInfoFromUserId(userId){
     return this.firestore.collection("users").doc(userId).get();
   }
 
+  getCurrentUserRole(){
+    return localStorage.getItem("UserRole");
+  }
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireAuth } from "@angular/fire/compat/auth";
+import { UserService } from './user.service';
 
 
 @Injectable({
@@ -13,7 +14,7 @@ export class AuthService {
 
   private loginEvent = new Subject<any>();
 
-  constructor(private firestore: AngularFirestore, private auth: AngularFireAuth) {
+  constructor(private firestore: AngularFirestore, private auth: AngularFireAuth, private userService: UserService) {
   }
 
   public login(email, password){
@@ -21,6 +22,10 @@ export class AuthService {
     request.then((response) => {
       localStorage.setItem("UserEmail", email);
       this.setUserId(email);
+
+      this.userService.getInfoFromCurrentUser().subscribe((response) => {
+        localStorage.setItem("UserRole", response.data()["role"]);
+      })
 
       this.loginEvent.next(email);
     });
@@ -73,6 +78,7 @@ export class AuthService {
     this.auth.signOut();
     localStorage.removeItem("UserEmail");
     localStorage.removeItem("UserId");
+    localStorage.removeItem("UserRole");
   }
   
 }
