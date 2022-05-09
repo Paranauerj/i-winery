@@ -47,10 +47,11 @@ export class UserPage implements OnInit {
         this.starsEvaluated.push(evaluation.data()["stars"]);
 
         this.wineService.getInfo(evaluation.data()["wineId"]).subscribe(responseWine => {
+          if(responseWine.exists){
             var aux = responseWine.data();
             aux["id"] = responseWine.id;
-
             this.winesEvaluated.push(aux);
+          }
         });
 
       });
