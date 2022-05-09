@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule, OnInit } from '@angular/core';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { IonicModule, ModalController, ToastController } from '@ionic/angular';
+import { UserService } from 'src/app/services/user.service';
+import { WineService } from 'src/app/services/wine.service';
 
 @Component({
   selector: 'app-modal-wine-details',
@@ -20,8 +22,10 @@ export class ModalWineDetailsComponent {
   @Input() container: any;
   @Input() addedElements: any;
   @Input() responsible: any;
-  
-  constructor(private modalController: ModalController) { }
+  @Input() interactionKey: any;
+  @Input() isAdminOrOwner: any;
+
+  constructor(private modalController: ModalController, private wineService: WineService, private toastController: ToastController) { }
 
   ngOnInit() {}
 
@@ -31,6 +35,22 @@ export class ModalWineDetailsComponent {
     this.modalController.dismiss({
       'dismissed': true
     });
+  }
+
+  
+  deleteInteraction(){
+    this.wineService.removeInteraction(this.interactionKey).subscribe(response => {
+      this.presentToast("Interação apagada - saia e entre novamente para ver as atualizações!");
+      this.dismiss();
+    });
+  }
+
+  async presentToast(msg) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 2000
+    });
+    toast.present();
   }
 
 }

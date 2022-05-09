@@ -55,6 +55,13 @@
             </ng-container>
           </ion-col>
         </ion-row>
+        <ion-row *ngIf="isAdminOrOwner">
+          <ion-col size="12">
+            <ion-button (click)="deleteInteraction()" expand="block" fill="clear" shape="round" color="danger">
+              Remover Interação
+            </ion-button>
+          </ion-col>
+        </ion-row>
       </ion-grid>
     </ion-item>
 

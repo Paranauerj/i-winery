@@ -132,7 +132,7 @@ export class HistoryPage implements OnInit {
   async presentInteractionDetails(index) {
     const modal = await this.modalController.create({
       component: ModalWineDetailsComponent,
-      componentProps: Object.assign(this.wineInteractions[index].Record, {name: this.wineInfo.name, interactionKey: this.wineInteractions[index].Key})
+      componentProps: Object.assign(this.wineInteractions[index].Record, {name: this.wineInfo.name, interactionKey: this.wineInteractions[index].Key, isAdminOrOwner: this.isOwner || this.userInfo.role == "admin" })
     });
     return await modal.present();
     // console.log(index, this.wineInteractions[index]);
