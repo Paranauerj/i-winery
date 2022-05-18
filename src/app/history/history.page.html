@@ -92,16 +92,17 @@
     </ion-button>
 
     <hr>
-    <center [hidden]="!QRGenerated">
+    
+    <div style="text-align: center;" [hidden]="!QRGenerated">
       <div id="qrcode">
-        <qr-code [size]="250" [value]="wineId" [level]="H"></qr-code>
+        <qr-code [size]="250" [value]="wineId" level="H"></qr-code>
       </div>
       <hr>
       <!--<button class="botao" printSectionId="qrcode" ngxPrint>
         <ion-icon slot="start" name="print"></ion-icon>
         Imprimir
       </button>-->
-    </center>
+    </div>
 
 </ng-container>
 

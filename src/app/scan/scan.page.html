@@ -15,9 +15,11 @@
 
   <hr/>
 
-  <p align="center">
-    <zxing-scanner [enable]="cordovaError" [formats]="['QR_CODE']" (scanSuccess)="scanSuccessHandler($event)" style="max-width: 60rem;"></zxing-scanner>
-  </p>
+  <div style="text-align: center;">
+    <p>
+      <zxing-scanner [enable]="cordovaError" (scanSuccess)="scanSuccessHandler($event)" style="max-width: 60rem;"></zxing-scanner>
+    </p>
+  </div>
   
 
 </ion-content>
