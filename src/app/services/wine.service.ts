@@ -4,7 +4,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { WineInteraction } from '../classes/wine-interaction';
 import { AuthService } from './auth.service';
 import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import { catchError, retry, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 
@@ -38,10 +38,17 @@ export class WineService {
     return this.firestore.collection("wines").doc(wineId).delete();
   }
 
-  // INTERAÇÕES
-  // Obtém as interações do vinho
+  // ------------------------ INTERAÇÕES --------------------------
+
+  // Obtém as interações do vinho e ordena-as por data
   public getInteractions(wineId){
-    return this.http.get(environment.blockchain.url + "/wines/" + wineId);
+    return this.http.get<any[]>(environment.blockchain.url + "/wines/" + wineId).pipe(
+
+        map(arrOfInteractions => arrOfInteractions.sort((a, b) => {
+          return a.Record.date >= b.Record.date ? 1 : -1;
+        }))
+
+    );
   }
 
   // Adiciona interação nova
